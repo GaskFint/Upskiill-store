@@ -17,6 +17,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { Layout } from "@/components/site/Layout";
 import { getCourse } from "@/lib/courses";
+import { sendCoursePurchaseEmail } from "@/lib/email.functions";
 import { useState } from "react";
 
 export const Route = createFileRoute("/checkout/$slug")({
@@ -40,16 +41,27 @@ function CheckoutPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setLoading(true);
-    setTimeout(() => {
-      navigate({
-        to: "/success",
-        search: { slug: course.slug, email },
+    try {
+      const result = await sendCoursePurchaseEmail({
+        data: { slug: course.slug, email },
       });
-    }, 700);
+      if (!result.ok) {
+        setError(result.error ?? "Could not send your access email. Please try again.");
+        setLoading(false);
+        return;
+      }
+      navigate({ to: "/success", search: { slug: course.slug, email } });
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Please try again.");
+      setLoading(false);
+    }
   };
 
   return (
@@ -138,6 +150,10 @@ function CheckoutPage() {
               >
                 {loading ? "Processing…" : `Pay $${course.price} — Get instant access`}
               </button>
+
+              {error && (
+                <p className="text-center text-sm font-medium text-destructive">{error}</p>
+              )}
 
               <div className="flex items-center justify-center gap-3 pt-2 text-xs text-muted-foreground">
                 <FontAwesomeIcon icon={faLock} className="text-success" /> 256-bit SSL · Powered by Stripe

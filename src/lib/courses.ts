@@ -18,6 +18,7 @@ export interface Course {
   originalPrice: number;
   category: string;
   thumbnail: string;
+  driveLink: string;
   features: string[];
   duration: string;
   lessons: number;
@@ -39,10 +40,11 @@ export const courses: Course[] = [
     tagline: "The proven ChatGPT system to launch profitable income streams in 30 days.",
     description:
       "A step-by-step playbook to turn ChatGPT into a real income engine — freelancing, content, automations, and digital products.",
-    price: 37,
+    price: 15,
     originalPrice: 197,
     category: "AI & ChatGPT",
     thumbnail: chatgptImg,
+    driveLink: "https://drive.google.com/drive/folders/1pPsK7E9hvhfumcvybDhfbNEoSJs5nSax",
     features: [
       "The exact ChatGPT system to generate $1k–$5k/month income streams",
       "47 money-making prompts you can copy, paste, and sell today",
@@ -95,10 +97,11 @@ export const courses: Course[] = [
     tagline: "Build, deploy, and sell AI agents that work for you 24/7 — no coding required.",
     description:
       "The complete masterclass on AI agents. Build autonomous systems that prospect, write, post, and earn while you sleep.",
-    price: 47,
+    price: 15,
     originalPrice: 247,
     category: "AI Automation",
     thumbnail: aiAgentsImg,
+    driveLink: "https://drive.google.com/drive/folders/1eLPlg7JrBoqB9-iKSY1mNty2ZMvuRuzx",
     features: [
       "Build your first AI agent in under 60 minutes — no code",
       "8 ready-to-deploy agent templates (sales, content, research, support)",
@@ -151,10 +154,11 @@ export const courses: Course[] = [
     tagline: "Edit scroll-stopping videos on your phone — no laptop, no expensive software.",
     description:
       "Master CapCut on mobile from zero to pro. The exact editing system used by creators with millions of views.",
-    price: 19,
+    price: 10,
     originalPrice: 97,
     category: "Video Editing",
     thumbnail: capcutImg,
+    driveLink: "https://drive.google.com/drive/folders/1XwQdcXhdI0SA0rHtttL0fD06EkJkDdFz",
     features: [
       "Edit viral-ready videos entirely from your phone",
       "The 9 effects that make videos go viral on TikTok & Reels",

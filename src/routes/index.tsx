@@ -47,9 +47,9 @@ function Index() {
   return (
     <Layout headerDark>
       <Hero />
+      <PopularCourses />
       <FeatureStrip />
       <QualitySection />
-      <PopularCourses />
       <Testimonials />
       <HowItWorks />
       <CTABanner />

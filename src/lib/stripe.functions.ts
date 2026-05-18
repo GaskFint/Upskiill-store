@@ -32,7 +32,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
     try {
       const session = await stripe.checkout.sessions.create({
         mode: "payment",
-        payment_method_types: ["card"],
+        automatic_payment_methods: { enabled: true },
         customer_email: data.email,
         line_items: [
           {

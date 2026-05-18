@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { getCourse } from "./courses";
+import { getDriveLink } from "./course-access.server";
 
 const InputSchema = z.object({
   slug: z.string().min(1).max(100),
@@ -58,6 +59,11 @@ export const sendCoursePurchaseEmail = createServerFn({ method: "POST" })
     if (!course) {
       return { ok: false as const, error: "Unknown course" };
     }
+    const driveLink = getDriveLink(data.slug);
+    if (!driveLink) {
+      console.error("Drive link missing for", data.slug);
+      return { ok: false as const, error: "Course link not configured" };
+    }
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
@@ -67,7 +73,7 @@ export const sendCoursePurchaseEmail = createServerFn({ method: "POST" })
 
     const html = renderEmail({
       courseTitle: course.title,
-      driveLink: course.driveLink,
+      driveLink,
     });
 
     const res = await fetch("https://api.resend.com/emails", {

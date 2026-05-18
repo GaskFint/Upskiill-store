@@ -18,7 +18,6 @@ export interface Course {
   originalPrice: number;
   category: string;
   thumbnail: string;
-  driveLink: string;
   features: string[];
   duration: string;
   lessons: number;

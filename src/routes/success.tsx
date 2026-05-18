@@ -1,15 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, faShareNodes, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faShareNodes, faArrowRight, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { Layout } from "@/components/site/Layout";
 import { getCourse } from "@/lib/courses";
+import { verifyCheckoutSession } from "@/lib/stripe.functions";
+import { sendCoursePurchaseEmail } from "@/lib/email.functions";
 
-type Search = { slug?: string; email?: string };
+type Search = { session_id?: string };
 
 export const Route = createFileRoute("/success")({
   validateSearch: (s: Record<string, unknown>): Search => ({
-    slug: typeof s.slug === "string" ? s.slug : undefined,
-    email: typeof s.email === "string" ? s.email : undefined,
+    session_id: typeof s.session_id === "string" ? s.session_id : undefined,
   }),
   head: () => ({
     meta: [
@@ -22,8 +24,83 @@ export const Route = createFileRoute("/success")({
 });
 
 function SuccessPage() {
-  const { slug, email } = Route.useSearch();
+  const { session_id } = Route.useSearch();
+  const [status, setStatus] = useState<"loading" | "ok" | "unpaid" | "error">("loading");
+  const [slug, setSlug] = useState<string | undefined>();
+  const [email, setEmail] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (!session_id) {
+      setStatus("error");
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      try {
+        const result = await verifyCheckoutSession({ data: { sessionId: session_id } });
+        if (cancelled) return;
+        if (!result.ok) {
+          setStatus("error");
+          return;
+        }
+        if (!result.paid) {
+          setStatus("unpaid");
+          return;
+        }
+        setSlug(result.slug);
+        setEmail(result.email);
+        setStatus("ok");
+        // Fallback: also trigger the email here, in case the Stripe webhook
+        // isn't wired up yet. The webhook is the authoritative path.
+        if (result.slug && result.email) {
+          sendCoursePurchaseEmail({
+            data: { slug: result.slug, email: result.email },
+          }).catch((err) => console.error("Fallback email failed:", err));
+        }
+      } catch (err) {
+        console.error(err);
+        if (!cancelled) setStatus("error");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [session_id]);
+
   const course = slug ? getCourse(slug) : undefined;
+
+  if (status === "loading") {
+    return (
+      <Layout>
+        <section className="bg-surface py-24">
+          <div className="mx-auto max-w-md px-6 text-center">
+            <FontAwesomeIcon icon={faSpinner} spin className="text-3xl text-primary" />
+            <p className="mt-4 text-sm text-muted-foreground">Confirming your payment…</p>
+          </div>
+        </section>
+      </Layout>
+    );
+  }
+
+  if (status === "error" || status === "unpaid") {
+    return (
+      <Layout>
+        <section className="bg-surface py-24">
+          <div className="mx-auto max-w-md px-6 text-center">
+            <h1 className="text-2xl font-bold text-foreground">We couldn't confirm your payment.</h1>
+            <p className="mt-3 text-sm text-muted-foreground">
+              {status === "unpaid"
+                ? "Your payment hasn't been completed yet. If you were just charged, refresh in a few seconds."
+                : "Something went wrong verifying your session. If you were charged, check your email — your access link is on the way."}
+            </p>
+            <Link to="/courses" className="mt-6 inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90">
+              Back to courses <FontAwesomeIcon icon={faArrowRight} className="text-xs" />
+            </Link>
+          </div>
+        </section>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

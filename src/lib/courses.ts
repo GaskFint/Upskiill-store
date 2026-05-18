@@ -18,7 +18,6 @@ export interface Course {
   originalPrice: number;
   category: string;
   thumbnail: string;
-  driveLink: string;
   features: string[];
   duration: string;
   lessons: number;
@@ -44,7 +43,6 @@ export const courses: Course[] = [
     originalPrice: 197,
     category: "AI & ChatGPT",
     thumbnail: chatgptImg,
-    driveLink: "https://drive.google.com/drive/folders/1pPsK7E9hvhfumcvybDhfbNEoSJs5nSax",
     features: [
       "The exact ChatGPT system to generate $1k–$5k/month income streams",
       "47 money-making prompts you can copy, paste, and sell today",
@@ -101,7 +99,6 @@ export const courses: Course[] = [
     originalPrice: 247,
     category: "AI Automation",
     thumbnail: aiAgentsImg,
-    driveLink: "https://drive.google.com/drive/folders/1eLPlg7JrBoqB9-iKSY1mNty2ZMvuRuzx",
     features: [
       "Build your first AI agent in under 60 minutes — no code",
       "8 ready-to-deploy agent templates (sales, content, research, support)",
@@ -158,7 +155,6 @@ export const courses: Course[] = [
     originalPrice: 97,
     category: "Video Editing",
     thumbnail: capcutImg,
-    driveLink: "https://drive.google.com/drive/folders/1XwQdcXhdI0SA0rHtttL0fD06EkJkDdFz",
     features: [
       "Edit viral-ready videos entirely from your phone",
       "The 9 effects that make videos go viral on TikTok & Reels",

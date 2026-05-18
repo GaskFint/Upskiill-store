@@ -121,27 +121,62 @@ After payment, customers receive an email with their Google Drive link and a **T
 
 ## Deployment
 
-### Vercel (recommended for upskiill.com)
+### Cloudflare Pages (recommended — fully functional)
 
-1. Import the repo in [Vercel](https://vercel.com)
-2. Add every variable from `.env.example` under **Project → Settings → Environment Variables** (Production + Preview)
-3. Connect your `upskiill.com` domain in **Domains**
-4. Point the Stripe webhook to `https://upskiill.com/api/public/stripe-webhook`
+The project is configured for **Cloudflare Pages** via `wrangler.jsonc` and `@cloudflare/vite-plugin`. This is the only deployment target that supports the full SSR feature set (Stripe checkout + webhooks + Resend email delivery + Drive link access).
 
-TanStack Start on Vercel may require the [Nitro Vite plugin](https://vercel.com/docs/frameworks/full-stack/tanstack-start) if the default build fails — see Vercel’s TanStack Start docs.
-
-### Cloudflare Workers (alternative)
-
-The repo also includes `@cloudflare/vite-plugin` and `wrangler.jsonc`:
+#### Deploy via Wrangler CLI
 
 ```bash
+# Install Wrangler globally (if not already installed)
+npm install -g wrangler
+
+# Log in to Cloudflare (opens browser)
+wrangler login
+
+# Build the project
 bun run build
-npx wrangler secret put STRIPE_SECRET_KEY
-# … repeat for each secret
-npx wrangler deploy
+
+# Deploy to Cloudflare Pages
+wrangler pages deploy dist
+# Enter: dist/client    (Cloudflare will serve static assets + worker routes)
 ```
 
-The worker entry is `src/server.ts` (TanStack Start SSR bundle).
+#### Add Environment Variables
+
+After the first deploy, go to **Cloudflare Dashboard → Pages → upskiill-store → Settings → Environment Variables** and add (Production + Preview):
+
+| Variable | Required |
+|----------|----------|
+| `STRIPE_SECRET_KEY` | Yes |
+| `STRIPE_WEBHOOK_SECRET` | Yes |
+| `RESEND_API_KEY` | Yes |
+| `RESEND_FROM_EMAIL` | Optional |
+| `DRIVE_LINK_CHATGPT_MAKE_MONEY` | Yes |
+| `DRIVE_LINK_AI_AGENTS_MASTERCLASS` | Yes |
+| `DRIVE_LINK_CAPCUT_MASTERY` | Yes |
+
+#### Connect `upskiill.com`
+
+1. **Cloudflare Dashboard → Pages → upskiill-store → Custom domains → Add domain** → enter `upskiill.com` (also `www.upskiill.com`)
+2. Cloudflare will display two nameservers
+3. At your domain registrar, update the NS records to the Cloudflare nameservers
+4. SSL is automatic — site goes live at `https://upskiill.com` within minutes
+
+#### Stripe Webhook
+
+Set the webhook endpoint to: `https://upskiill.com/api/public/stripe-webhook`
+Listen for: `checkout.session.completed`
+
+---
+
+### Vercel (static preview only)
+
+Vercel does not natively support Cloudflare Workers. This project can be deployed as a **static SPA** on Vercel using `vercel.json` (`outputDirectory: dist/client`). Server-side features — Stripe webhooks, Resend email fulfillment, and Google Drive link access — **will not work** on Vercel. Use Cloudflare Pages for the full experience.
+
+If you still want to use Vercel, add `.env.example` keys under **Project → Settings → Environment Variables** and deploy normally.
+
+> ⚠️ **Warning:** Deploying on Vercel disables all server-side functionality. Payments will process through Stripe but access emails and Drive links will not be delivered. Use **Cloudflare Pages** for production.
 
 ## Design
 

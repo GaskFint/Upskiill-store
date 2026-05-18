@@ -145,6 +145,25 @@ function SuccessPage() {
             ))}
           </div>
 
+          <div className="mt-10 overflow-hidden rounded-2xl bg-hero p-6 text-left text-hero-foreground md:p-8">
+              <p className="text-xs font-semibold uppercase tracking-wider text-primary">While you learn</p>
+              <h2 className="mt-2 text-xl font-extrabold leading-tight md:text-2xl">
+                Meet Teyro — Duolingo for real-world skills
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-hero-foreground/75">
+                A personalized, AI-driven platform built to help you actually finish and master skills — daily
+                streaks, adaptive lessons, and real projects.
+              </p>
+              <a
+                href="https://teyro.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90"
+              >
+                Join the Teyro waitlist <FontAwesomeIcon icon={faArrowRight} className="text-xs" />
+              </a>
+          </div>
+
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <button
               type="button"

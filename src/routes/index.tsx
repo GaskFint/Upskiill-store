@@ -72,20 +72,12 @@ function Hero() {
             <FontAwesomeIcon icon={faBolt} className="text-primary" /> Premium courses · instant access
           </span>
           <h1 className="mt-5 text-4xl font-extrabold leading-tight md:text-6xl">
-            Learn Everyday & Any New Skills{" "}
-            <span className="text-primary">Online with Top Instructors.</span>
+            Learn The Exact Digital Skills To{" "}
+            <span className="text-primary">Build Automated Income Streams.</span>
           </h1>
           <p className="mt-5 max-w-lg text-base text-hero-foreground/70">
-            We're proud to provide upskiill quality education in your hand — AI, content, automation, and video editing courses that turn skills into income.
+            Master AI, automation, and content creation. We provide the exact, step-by-step blueprints to make money online, automate your work, and scale digital products from anywhere.
           </p>
-          <div className="mt-8">
-            <Link
-              to="/courses"
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-8 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-primary/20 transition hover:opacity-90"
-            >
-              Browse all courses <FontAwesomeIcon icon={faArrowRight} className="text-sm" />
-            </Link>
-          </div>
           <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-hero-foreground/70">
             <span className="inline-flex items-center gap-2">
               <FontAwesomeIcon icon={faShieldHalved} className="text-primary" /> Secure checkout

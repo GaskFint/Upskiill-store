@@ -120,6 +120,11 @@ export function CourseSalesPage({ course }: { course: Course }) {
             </div>
             <div className="order-1 lg:order-2">
               <p className="text-sm font-semibold text-primary">{course.category}</p>
+              {course.hook && (
+                <div className="mt-4 mb-2 border-l-4 border-primary pl-4 text-base font-medium italic leading-relaxed text-hero-foreground/90 md:text-lg">
+                  "{course.hook}"
+                </div>
+              )}
               <h1 className="mt-3 text-3xl font-extrabold leading-[1.12] tracking-tight md:text-[2.75rem]">
                 {course.title}
               </h1>

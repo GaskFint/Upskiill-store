@@ -13,6 +13,7 @@ export interface Course {
   slug: string;
   title: string;
   tagline: string;
+  hook?: string;
   description: string;
   price: number;
   originalPrice: number;
@@ -35,8 +36,9 @@ export interface Course {
 export const courses: Course[] = [
   {
     slug: "chatgpt-make-money",
-    title: "ChatGPT Complete 2025 — Make Money Online",
+    title: "ChatGPT Complete 2026 — Make Money Online",
     tagline: "The proven ChatGPT system to launch profitable income streams in 30 days.",
+    hook: "I used ChatGPT to make $4,200 last month from my phone. Here's the exact 5-step system 👇",
     description:
       "A step-by-step playbook to turn ChatGPT into a real income engine — freelancing, content, automations, and digital products.",
     price: 15,
@@ -91,8 +93,9 @@ export const courses: Course[] = [
   },
   {
     slug: "ai-agents-masterclass",
-    title: "AI Agents For Everyone — Complete Masterclass 2025",
+    title: "AI Agents For Everyone — Complete Masterclass 2026",
     tagline: "Build, deploy, and sell AI agents that work for you 24/7 — no coding required.",
+    hook: "AI agents are replacing virtual assistants that cost $3,000/mo. Here's how to build one in 30 mins — for free.",
     description:
       "The complete masterclass on AI agents. Build autonomous systems that prospect, write, post, and earn while you sleep.",
     price: 15,
@@ -149,6 +152,7 @@ export const courses: Course[] = [
     slug: "capcut-mastery",
     title: "CapCut Mobile Mastery — Beginner to Pro",
     tagline: "Edit scroll-stopping videos on your phone — no laptop, no expensive software.",
+    hook: "I woke up to $840 in sales on Tuesday. I posted nothing that day. Here's the digital product system.",
     description:
       "Master CapCut on mobile from zero to pro. The exact editing system used by creators with millions of views.",
     price: 10,

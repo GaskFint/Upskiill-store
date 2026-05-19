@@ -17,6 +17,24 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       return { ok: false as const, error: "Unknown course" };
     }
 
+    const host = getRequestHost();
+    const proto = getRequestHeader("x-forwarded-proto") ?? "https";
+    const origin = `${proto}://${host}`;
+
+    if (course.price === 0) {
+      const { getDriveLink } = await import("./course-access.server");
+      const { sendPurchaseEmail } = await import("./purchase-email.server");
+      const driveLink = getDriveLink(course.slug);
+      if (driveLink) {
+        await sendPurchaseEmail({
+          to: data.email,
+          courseTitle: course.title,
+          driveLink,
+        });
+      }
+      return { ok: true as const, url: `${origin}/success?session_id=free_${course.slug}` };
+    }
+
     const secretKey = process.env.STRIPE_SECRET_KEY;
     if (!secretKey) {
       console.error("STRIPE_SECRET_KEY missing");
@@ -25,14 +43,11 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
 
     const stripe = new Stripe(secretKey);
 
-    const host = getRequestHost();
-    const proto = getRequestHeader("x-forwarded-proto") ?? "https";
-    const origin = `${proto}://${host}`;
+
 
     try {
       const session = await stripe.checkout.sessions.create({
         mode: "payment",
-        automatic_payment_methods: { enabled: true },
         customer_email: data.email,
         line_items: [
           {
@@ -67,6 +82,11 @@ const VerifySchema = z.object({ sessionId: z.string().min(1).max(255) });
 export const verifyCheckoutSession = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => VerifySchema.parse(input))
   .handler(async ({ data }) => {
+    if (data.sessionId.startsWith("free_")) {
+      const slug = data.sessionId.replace("free_", "");
+      return { ok: true as const, paid: true, slug, email: "your email" };
+    }
+
     const secretKey = process.env.STRIPE_SECRET_KEY;
     if (!secretKey) {
       return { ok: false as const, error: "Payments not configured" };

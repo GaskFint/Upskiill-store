@@ -4,45 +4,56 @@ export function renderPurchaseEmail(opts: { courseTitle: string; driveLink: stri
   const { courseTitle, driveLink } = opts;
   return `<!doctype html>
 <html lang="en">
-<body style="margin:0;background:#f6f7f9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#0b0d10;">
-  <div style="max-width:560px;margin:0 auto;padding:32px 20px;">
-      <h1 style="font-size:24px;margin:0 0 8px;color:#0f1a2c;">You're in</h1>
-      <p style="margin:0 0 20px;color:#4b5563;line-height:1.55;">
-        Thanks for your purchase. Your instant access to <strong>${courseTitle}</strong> is ready below.
+<body style="margin:0;background:#f3f4f6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#111827;padding:40px 20px;">
+  <div style="max-width:580px;margin:0 auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.05);">
+    
+    <div style="background:#0f1a2c;padding:40px 30px;text-align:center;">
+      <h1 style="margin:0;font-size:28px;font-weight:800;color:#ffffff;letter-spacing:-0.5px;">Welcome to the inside.</h1>
+      <p style="margin:10px 0 0;font-size:16px;color:#cbd5e1;">It's time to turn your new skills into income.</p>
+    </div>
+    
+    <div style="padding:40px 30px;">
+      <p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#374151;">
+        You just took a massive step forward. Your access to <strong>${courseTitle}</strong> is fully activated and ready for you.
       </p>
 
-      <div style="background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:20px;margin-bottom:24px;">
-        <p style="margin:0 0 14px;font-size:14px;color:#111827;">
-          Open your course in Google Drive and save a copy to your own Drive for lifetime access.
-        </p>
-        <a href="${driveLink}" style="display:inline-block;background:#ff7a2d;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:10px;">
-          Open my course
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:24px;text-align:center;margin:30px 0;">
+        <h2 style="margin:0 0 16px;font-size:18px;color:#0f1a2c;">Access your materials below</h2>
+        <a href="${driveLink}" style="display:inline-block;background:#ff7a2d;color:#ffffff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 28px;border-radius:8px;box-shadow:0 4px 12px rgba(255,122,45,0.3);">
+          Open Course in Google Drive
         </a>
-        <p style="margin:14px 0 0;font-size:12px;color:#6b7280;word-break:break-all;">Or copy this link: ${driveLink}</p>
-      </div>
-
-      <div style="background:#0f1a2c;border-radius:14px;padding:24px;color:#ffffff;margin-bottom:20px;">
-        <p style="text-transform:uppercase;letter-spacing:.12em;font-size:11px;margin:0 0 8px;color:#ff7a2d;font-weight:700;">While you learn</p>
-        <h2 style="margin:0 0 10px;font-size:20px;line-height:1.35;color:#ffffff;">Meet Teyro — Duolingo for real-world skills</h2>
-        <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:#e5e7eb;">
-          We're building a personalized, AI-driven platform that helps you <strong style="color:#fff;">actually finish</strong> what you start — not just buy another course and never open it.
-        </p>
-        <p style="margin:0 0 18px;font-size:14px;line-height:1.6;color:#cbd5e1;">
-          Daily streaks, adaptive lessons, and real projects tuned to your goal. Think Duolingo, but for skills that pay off — coding, AI, content, and more.
-        </p>
-        <a href="${TEYRO_URL}" style="display:inline-block;background:#ff7a2d;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:10px;">
-          Join the Teyro waitlist
-        </a>
-        <p style="margin:14px 0 0;font-size:12px;color:#94a3b8;">
-          <a href="${TEYRO_URL}" style="color:#ff7a2d;text-decoration:none;">teyro.app</a> — early access opening soon.
+        <p style="margin:16px 0 0;font-size:13px;color:#64748b;">
+          * Pro tip: Click "Make a Copy" or "Add shortcut to Drive" to keep lifetime access in your own account.
         </p>
       </div>
 
-      <p style="font-size:12px;color:#9ca3af;margin:0;text-align:center;">
-        Questions? Reply to this email and we'll help.
+      <hr style="border:0;border-top:1px solid #e2e8f0;margin:40px 0;" />
+      
+      <h3 style="margin:0 0 12px;font-size:20px;font-weight:700;color:#0f1a2c;letter-spacing:-0.3px;">Don't let this sit in your inbox.</h3>
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#475569;">
+        Buying the course is only 10% of the work. The reality is that 90% of people never finish the courses they buy, which means they never see the financial return.
+      </p>
+      <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#475569;">
+        We refuse to let you become part of that statistic. That's why we've built <strong>Teyro</strong> — a private, AI-powered learning environment designed specifically to hold you accountable, adapt to your learning speed, and guarantee that you actually execute what you learn.
+      </p>
+
+      <div style="background:#0f1a2c;border-radius:12px;padding:24px;">
+        <p style="margin:0 0 16px;font-size:15px;color:#e2e8f0;line-height:1.5;">
+          Secure your spot on the Teyro waitlist today. When we open up, you'll be the first to get access to an ecosystem that forces you to succeed.
+        </p>
+        <a href="${TEYRO_URL}" style="display:inline-block;color:#ff7a2d;text-decoration:none;font-weight:700;font-size:15px;">
+          Claim your early access to Teyro &rarr;
+        </a>
+      </div>
+    </div>
+    
+    <div style="background:#f8fafc;padding:24px 30px;text-align:center;border-top:1px solid #e2e8f0;">
+      <p style="margin:0;font-size:13px;color:#64748b;">
+        Need help? Just hit reply to this email.<br/>We're here to see you win.
       </p>
     </div>
-  </body>
+  </div>
+</body>
 </html>`;
 }
 
@@ -75,7 +86,7 @@ export async function sendPurchaseEmail(opts: {
     body: JSON.stringify({
       from: getResendFromAddress(),
       to: [opts.to],
-      subject: `Your access to ${opts.courseTitle}`,
+      subject: `🚀 Access Granted: ${opts.courseTitle} (Start learning & earning)`,
       html,
     }),
   });

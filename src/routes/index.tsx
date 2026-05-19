@@ -78,31 +78,14 @@ function Hero() {
           <p className="mt-5 max-w-lg text-base text-hero-foreground/70">
             We're proud to provide upskiill quality education in your hand — AI, content, automation, and video editing courses that turn skills into income.
           </p>
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="mt-8 flex flex-col gap-2 rounded-xl bg-background p-2 md:flex-row md:items-center"
-          >
-            <div className="flex flex-1 items-center gap-3 px-3 text-foreground">
-              <FontAwesomeIcon icon={faMagnifyingGlass} className="text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Insert title or keyword"
-                className="flex-1 bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground"
-              />
-            </div>
-            <select className="hidden border-l border-border bg-transparent px-3 py-3 text-sm text-foreground md:block">
-              <option>Categories</option>
-              <option>AI & ChatGPT</option>
-              <option>Automation</option>
-              <option>Video Editing</option>
-            </select>
+          <div className="mt-8">
             <Link
               to="/courses"
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground"
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-8 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-primary/20 transition hover:opacity-90"
             >
-              Search Now
+              Browse all courses <FontAwesomeIcon icon={faArrowRight} className="text-sm" />
             </Link>
-          </form>
+          </div>
           <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-hero-foreground/70">
             <span className="inline-flex items-center gap-2">
               <FontAwesomeIcon icon={faShieldHalved} className="text-primary" /> Secure checkout

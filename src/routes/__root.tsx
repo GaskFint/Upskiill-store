@@ -108,8 +108,30 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+import { useEffect } from "react";
+import { useRouterState } from "@tanstack/react-router";
+import posthog from "posthog-js";
+
+if (typeof window !== "undefined") {
+  const posthogKey = import.meta.env.VITE_POSTHOG_KEY;
+  if (posthogKey) {
+    posthog.init(posthogKey, {
+      api_host: import.meta.env.VITE_POSTHOG_HOST || "https://us.i.posthog.com",
+      person_profiles: "identified_only",
+      capture_pageview: false, // track manually on route change
+    });
+  }
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const location = useRouterState({ select: (s) => s.location });
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && import.meta.env.VITE_POSTHOG_KEY) {
+      posthog.capture("$pageview");
+    }
+  }, [location.pathname]);
 
   return (
     <QueryClientProvider client={queryClient}>

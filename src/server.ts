@@ -69,6 +69,13 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      // Inject Cloudflare Worker env bindings into process.env so server-side code
+      // can read secrets via process.env.STRIPE_SECRET_KEY, process.env.RESEND_API_KEY, etc.
+      if (env && typeof env === "object") {
+        for (const [key, value] of Object.entries(env as Record<string, unknown>)) {
+          (process.env as Record<string, string>)[key] = String(value);
+        }
+      }
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
